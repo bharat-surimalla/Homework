@@ -126,7 +126,6 @@ class App extends Component {
                   <span style={{ color: "gray" }}> Title: </span> {dat.title} <br />
                   <span style={{ color: "gray" }}> Description: </span>
                   {dat.description}
-                  {dat._id}  
                 
                   <span style={{ margin : "0px 0px 0px 10px" }} class="btn btn-danger" 
                   onClick={() => this.deleteFromDB(dat._id)}>
