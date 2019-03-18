@@ -9,7 +9,6 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       data: [],
       id: 0,
@@ -21,10 +20,7 @@ class App extends Component {
       
     };
   }
-
-  // when component mounts, first thing it does is fetch all existing data in our db
-  // then we incorporate a polling logic so that we can easily see if our db has 
-  // changed and implement those changes into our UI
+  
   componentDidMount() {
     this.getDataFromDb();
     
@@ -33,9 +29,6 @@ class App extends Component {
         this.setState({ intervalIsSet: interval });
      }
   }
-
-  // never let a process live forever 
-  // always kill a process everytime we are done using it
   componentWillUnmount() {
     this.getDataFromDb();
     if (this.state.intervalIsSet) {
@@ -44,8 +37,6 @@ class App extends Component {
     }
   }
 
-  // our first get method that uses our backend api to 
-  // fetch data from our data base
   getDataFromDb = () => {
     fetch("http://localhost:3001/api/getData")
       .then(data => data.json())
@@ -55,34 +46,28 @@ class App extends Component {
 	putDataToDB = (e) => {
 		//we don't want the form to submit, so we prevent the default behavior
 		e.preventDefault();
-		
 		var title = this.state.title.trim();
 		var description = this.state.description.trim();
 		axios.post("http://localhost:3001/api/putData", {title: title, description: description})
-			.then(function(response){console.log("post", response);});
-		
+			.then(function(response){console.log("post", response);});	
 		this.setState({
 		  title: '',
 		  description: ''
-    }); 	
+    }); 
 	  };
 
+  deleteFromDB = (e) => {
+    const url ="http://localhost:3001/api/deleteData";
+    var { idToDelete } = e;
+		axios.delete(url, {
+      data: { _id: e }
+    })
+			.then(function(response){console.log("delete", response);});	
+		this.setState({
+		  idToDelete: '',
+    }); 
+	  };
 
-  // our delete method that uses our backend api 
-  // to remove existing database information
-  deleteFromDB = (idTodelete) => {
-    axios.delete("http://localhost:3001/api/deleteData", {
-      data: {
-        id: idTodelete
-      }
-      
-    });
-  };
-
-
-  // here is our UI
-  // it is easy to understand their functions when you 
-  // see them render into our screen
   render() {
     const { data } = this.state;
     return (

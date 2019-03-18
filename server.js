@@ -35,9 +35,7 @@ app.use(cors())
 // this is our get method
 // this method fetches all available data in our database
 router.get("/getData", (req, res) => {
-	console.log("In Get");
   Movie.find((err, data) => {
-	  console.log(data);
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
@@ -55,25 +53,21 @@ router.post("/updateData", (req, res) => {
 
 // this is our delete method
 // this method removes existing data in our database
-router.delete("/deleteData", (req, res) => {
-  console.log(req);
-  const { id } = req.body;
+router.delete("/deleteData",(req,res)=> {
+  const id = req.body;
   Movie.findOneAndDelete(id, err => {
-    if (err) return res.send(err);
-    return res.json({ success: true });
-  });
+   if (err){ return res.send(err);}
+   return res.json({ success: true });
+  }); 
 });
 
 // this is our create methid
 // this method adds new data in our database
 router.post("/putData", (req, res) => {
   let data = new Movie();
-
   const { title, description } = req.body;
-
   data.description = description;
   data.title = title;
-  console.log(data);
   data.save(err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
