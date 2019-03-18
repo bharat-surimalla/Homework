@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.css';
 import { FaTrash } from 'react-icons/fa';
+import { MDBDataTable, Collapse } from 'mdbreact';
 
 
 class App extends Component {
@@ -73,8 +74,8 @@ class App extends Component {
     return (
         
         <div class="container" >
-        <h1 class="text-center"> My Application</h1>
-      <form className="donationForm" onSubmit={this.putDataToDB}>
+        <h1 class="text-center"> Homework Application</h1>
+        <form className="donationForm" onSubmit={this.putDataToDB}>
         <div class="from-group">
           <label for="pwd"> Title </label>
           <input class="form-control"
@@ -100,30 +101,30 @@ class App extends Component {
         </div>
 
       </form>
-
+      <div>
+        <span>DataBase Entries:</span>
+      </div>
             
       <div >
-       <ol >  
-          {data.length <= 0
-            ? "NO DB ENTRIES YET"
-            : data.map(dat => (
-                <li style={{ padding: "10px" }} id={dat._id}>
-                  <span style={{ color: "gray" }}> Title: </span> {dat.title} <br />
-                  <span style={{ color: "gray" }}> Description: </span>
-                  {dat.description}
-                
-                  <span style={{ margin : "0px 0px 0px 10px" }} class="btn btn-danger" 
-                  onClick={() => this.deleteFromDB(dat._id)}>
-                  <FaTrash />
-          </span>
-               
-                </li>
+      
+       
+          {data.map(dat => (
+            <table style ={{width :'100%',border : "1px solid silver" }} >   
+                <tr class="row">
+                   <th class="col-sm-4" > {dat.title} </th> 
+                   <th class="col-sm-4">{dat.description} </th>
+                   <th class="btn  col-sm-4">
+                   <button class="btn btn-danger" onClick={() => this.deleteFromDB(dat._id)}>Delete<FaTrash /></button>
+                   </th> 
+                </tr>
+            </table>
               ))}
-        </ol>
+        
+        
+
+
       </div>    
-    </div>
-        
-        
+    </div>    
     );
   }
 }
